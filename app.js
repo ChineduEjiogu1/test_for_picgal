@@ -2,13 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
+
 
 var routes = require('./routes/index');
 //var usersRouter = require('./routes/users');
 var users = require('./routes/users');
-//var auth = require('./routes/auth');
-//let main = require('./routes/main');
+var auth = require('./routes/auth');
+var main = require('./routes/main');
 
 var app = express();
 
@@ -23,11 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-//app.use('/auth', auth);
+app.use('/auth', auth);
 app.use('/users', users);
-
-//app.use('/auth', authRouter);
-//app.use('/main', main);
+app.use('/main', main);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
