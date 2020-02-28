@@ -1,19 +1,8 @@
 doctype html
 html(lang='en')
   head
-    title Jade
-    script(type='text/javascript').
-      const foo = true;
-      let bar = function() {};
-      if (foo) {
-      bar(1 + 5)
-      }
+    meta(charset='UTF-8')
+    title  JS File Reader 
   body
-    h1 Jade - node template engine
-    #container.col
-      p You are amazing
-      p
-        | Jade is a terse and simple
-        | templating language with a
-        | strong focus on performance
-        | and powerful features.
+    input(type='file')
+    script(src='javascripts/fileReader.js', charset='utf-8')

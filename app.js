@@ -45,4 +45,17 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// app.get('/', function(req, res, next){
+//   res.render('main.jade');
+// });
+
+app.use(function(req, res, next) {
+  if (req.session.user == null){
+// if user is not logged-in redirect back to login page //
+      res.redirect('/');
+  }   else{
+      next();
+  }
+});
+
 module.exports = app;
