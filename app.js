@@ -1,7 +1,9 @@
+var cookieParser = require('cookie-parser');
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 
@@ -13,6 +15,7 @@ var auth = require('./routes/auth');
 var main = require('./routes/main');
 
 var app = express();
+app.use(cookieParser("demo site"));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,13 +52,22 @@ app.use(function(err, req, res, next) {
 //   res.render('main.jade');
 // });
 
-app.use(function(req, res, next) {
-  if (req.session.user == null){
-// if user is not logged-in redirect back to login page //
-      res.redirect('/');
-  }   else{
-      next();
-  }
-});
+// app.use(function(req, res, next) {
+//   if (req.session.user == null){
+// // if user is not logged-in redirect back to login page //
+//       res.redirect('/');
+//   }   else{
+//       next();
+//   }
+// });
+
+// app.post('/auth',  bcrypt.compare('auth',{
+//   successRedirect: '/main',
+//   failureRedirect: '/',
+// }));  
+
+// app.get('/main', function(request,reponse){
+//   res.render('main.jade');
+// });
 
 module.exports = app;

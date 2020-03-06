@@ -6,3 +6,7 @@ html(lang='en')
   body
     input(type='file')
     script(src='javascripts/fileReader.js', charset='utf-8')
+    #{title}
+    each friend in fr
+      p. 
+        #{friend.users}

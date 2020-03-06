@@ -57,7 +57,7 @@ function handleFiles (files) {
         const form = new FormData()
         form.append('image', blob, 'moody.jpg')
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', '/main.jade', true)
+        xhr.open('POST', '/fileuploader', true)
         xhr.send(form)
       })
     }
