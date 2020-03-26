@@ -11,4 +11,4 @@ CREATE TABLE friends (
 
   -- INSERT INTO friends(uID,friendID) values (1,2);
 
-  select users_info.uID, USERS, FULL_NAME from users_info INNER JOIN friends on friends.friendID = users_info.uID where friends.uID = 1;
+  -- select users_info.uID, USERS, FULL_NAME from users_info INNER JOIN friends on friends.friendID = users_info.uID where friends.uID = 1;

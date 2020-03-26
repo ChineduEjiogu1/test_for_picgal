@@ -2,9 +2,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser'); // in order to read cookie sent from client
 var signature = require("cookie-signature");
 var router = express.Router();
-var bcrypt = require('bcrypt');
 var sqlite3 = require('sqlite3');
-//let result1;
 
 
 function nocache(req, res, next) {
@@ -16,8 +14,6 @@ function nocache(req, res, next) {
    
    
    router.get('/', nocache, sendContent);
-   //  router.get('/', function(req, res) {
-   
    
    function sendContent(req, res) {
 
@@ -47,34 +43,20 @@ function nocache(req, res, next) {
             throw err;
           }
           
-          console.log("friends: ",JSON.stringify(result));
-        //  result1=result;
+        console.log("friends: ",JSON.stringify(result));
         console.log("After db query");
        // console.log("result1 before render :",JSON.stringify(result1));
        // res.render('main', { fr: JSON.stringify(result) });
         res.render('main', { title: 'Express', fr: result });
       
         });
-        // db.all(sql2, [cookie.cookieName], (err, result) => {
-        //   if (err) {
-        //     throw err;
-        //   }
-        //   //result2=result;
-        // });
 
         db.close();
         
-       //});
+       
      }
      
 }
 
-
-
-
-// router.post('/', function(req, res) {
-
-
-// });
 
 module.exports = router;
