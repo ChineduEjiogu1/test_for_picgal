@@ -37,7 +37,8 @@ function nocache(req, res, next) {
           }
           console.log('Connected to test db.');
         });
-        console.log("cookie has the following: ",cookie.cookieName);
+        
+        console.log("cookie has the following: ", cookie.cookieName);
         db.all(sql, [cookie.cookieName], (err, result) => {
           if (err) {
             throw err;

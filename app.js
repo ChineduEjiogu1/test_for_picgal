@@ -13,6 +13,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var main = require('./routes/main');
+var profile = require('./routes/profile');
+
 
 var app = express();
 app.use(cookieParser("demo site"));
@@ -31,6 +33,8 @@ app.use('/', routes);
 app.use('/auth', auth);
 app.use('/users', users);
 app.use('/main', main);
+app.use('/profile', profile);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

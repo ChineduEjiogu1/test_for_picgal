@@ -9,4 +9,5 @@ html(lang='en')
     #{title}
     each friend in fr
       p. 
-        #{friend.users}
+      a(href=`/profile?id=${friend.users}`) #{friend.users}
+      //- a(href=`/profile?id=${friend.users}`) 
