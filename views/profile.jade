@@ -9,7 +9,16 @@ html(lang='en')
     
     //- input(type='file')
     //- script(src='javascripts/fileReader.js', charset='utf-8')
-    div=pro.user
-    each friend in fri
-      p. 
-      a(href=`/profile?id=${friend.users}`) #{friend.users}
+    - let pro = { name : '', user : false, lastClick : 3}
+    if pro.user
+      div=pro.user
+    else
+    if fri === true
+      each friend in fri
+        p. 
+        a(href=`/profile?id=${friend.users}`) #{friend.users}
+    else
+      each picture in pics
+        p=JSON.stringify(picture)
+        
+          
