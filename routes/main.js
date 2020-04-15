@@ -62,7 +62,8 @@ function nocache(req, res, next) {
         
         console.log('id is:', cookie.cookieName)
         console.log("pics: ", JSON.stringify(result3));
-        res.render('profile', { title: 'Express',  pics_u: result3});
+        res.render('profile', { title: 'Express',  pics: result3});
+        
         console.log('pics_u', result3[0])
 
         });

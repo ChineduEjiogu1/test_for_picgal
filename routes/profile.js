@@ -22,38 +22,41 @@ router.get('/', function(req, res) {
   
   
   let id2 = req.query.id;
-  db.all(sql3, [id2], (err, result3) => {
-    if (err) {
-      throw err;
-    }
+  // db.all(sql3, [id2], (err, result3) => {
+  //   if (err) {
+  //     throw err;
+  //   }
   
-  console.log('id is:', id2)
-  console.log("pics: ", JSON.stringify(result3));
-  res.render('profile', { title: 'Express',  pics: result3});
-  //console.log('pics', result3[0])
+  // console.log('id is:', id2)
+  // console.log("pics: ", JSON.stringify(result3));
+  // res.render('profile', { title: 'Express',  pics: result3});
+  // //console.log('pics', result3[0])
 
 
-  });
+  // });
 
   db.all(sql, [id], (err, result) => {
     if (err) {
       throw err;
     }
     console.log("users: ", JSON.stringify(result));
-  
+  db.all(sql3, [id2], (err, result3) => {
+    if (err) {
+      throw err;
+    }
     let id = result[0].uid;
     db.all(sql2, [id], (err, result2) => {
       if (err) {
         throw err;
       }
     console.log("friends: ", JSON.stringify(result2));
-    res.render('profile', { title: 'Express', pro: result[0], fri: result2});
+    res.render('profile', { title: 'Express', pro: result[0], fri: result2, pics: result3});
     console.log('pro', result[0]);
   });
 
 
+  });
 });
-
    
   db.close();
 

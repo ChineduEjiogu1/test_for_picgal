@@ -9,15 +9,16 @@ html(lang='en')
     
     //- input(type='file')
     //- script(src='javascripts/fileReader.js', charset='utf-8')
-    - let pro = { name : '', user : false, lastClick : 3}
-    if pro.user
+    //- - let pro = { name : '', user : false, lastClick : 3}
+    img(src="/images/kira_flo_pics/kira_flo_1.jpg", alt="A Woman with buildings behind")
+
+    if pro
       div=pro.user
-    else
-    if fri === true
+    if fri
       each friend in fri
         p. 
         a(href=`/profile?id=${friend.users}`) #{friend.users}
-    else
+    if pics
       each picture in pics
         p=JSON.stringify(picture)
         
