@@ -553,7 +553,7 @@ INSERT INTO pics(
 )
 
     VALUES(
-        39, 154.3, 'Sophia10', '1080 x 1350', '04/02/2020', '3:43PM', 'images/Sophia10_pics/Sophia10_3jpg'
+        39, 154.3, 'Sophia10', '1080 x 1350', '04/02/2020', '3:43PM', 'images/Sophia10_pics/Sophia10_3.jpg'
     );
 
 INSERT INTO pics(
