@@ -20,7 +20,7 @@ function nocache(req, res, next) {
      var cookie = req.signedCookies;
      // var cookie = req.cookies;
      console.log("in main.js cookie is:", cookie);
-     if (typeof cookie.cookieName === 'undefined')
+     if (typeof cookie.cookieID === 'undefined')
      {
       
        res.send('YOU NEED TO BE AUTHENTICATED'); 
@@ -40,9 +40,11 @@ function nocache(req, res, next) {
           }
           console.log('Connected to test db.');
         });
-        //let id = result[0].users; 
-        console.log("cookie has the following: ", cookie.cookieName);
-        db.all(sql, [cookie.cookieName], (err, result) => {
+
+
+       
+        console.log("cookie has the following: ", cookie.cookieID);
+        db.all(sql, [cookie.cookieID], (err, result) => {
           if (err) {
             throw err;
           }
@@ -51,23 +53,22 @@ function nocache(req, res, next) {
         console.log("After db query");
        // console.log("result1 before render :",JSON.stringify(result1));
        // res.render('main', { fr: JSON.stringify(result) });
-        res.render('main', { title: 'Express', fr: result });
+        //res.render('main', { title: 'Express', fr: result });
       
-        });
         
-        db.all(sql3, [], (err, result3) => {
+        
+        db.all(sql3, [cookie.cookieName], (err, result3) => {
           if (err) {
             throw err;
           }
         
-        console.log('id is:', cookie.cookieName)
+        console.log('id is:', cookie.cookieID)
         console.log("pics: ", JSON.stringify(result3));
-        res.render('profile', { title: 'Express',  pics: result3});
+        res.render('main', { title: 'Express',  fr: result , pics: result3});
         
-        console.log('pics_u', result3[0])
 
         });
-
+      });
         db.close();
         
        

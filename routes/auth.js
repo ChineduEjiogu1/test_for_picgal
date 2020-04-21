@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res){
 
-  let sql = 'select ID as uid, SALT_and_HASH_PASSWORD as hash from credentials where USER_NAME = (?)';
+  let sql = 'select ID as uid, USER_NAME as user_name, SALT_and_HASH_PASSWORD as hash from credentials where USER_NAME = (?)';
   const plainTextPassword1 = req.body.pass;
   const user_name = req.body.user;
   const saltRounds = 10;
@@ -46,14 +46,15 @@ router.post('/', function(req, res){
           console.log("test");
           if (answ == true){
             console.log("SUCCESS!!");
-                var cookie = req.signedCookies.cookieName;
+                var cookie = req.signedCookies.cookieID;
                 //res.redirect('/main');
                 
                 //var cookie = req.signedCookies;
                 if (typeof cookie === 'undefined')
                 {
                   // no: set a new cookie
-                  res.cookie('cookieName', result.uid, options) // options is optional
+                  res.cookie('cookieName' , result.user_name, options) // options is optional
+                  res.cookie('cookieID' , result.uid,  options)
                   console.log('cookie created successfully');
                  // res.send(''); 
                   res.redirect("/main");

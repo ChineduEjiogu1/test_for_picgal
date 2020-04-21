@@ -8,10 +8,12 @@ html(lang='en')
     script(src='javascripts/fileReader.js', charset='utf-8')
     #{title}
      a(href='logout') Logout 
-    each friend in fr
-      p. 
-      a(href=`/profile?id=${friend.users}`) #{friend.users}
-      //- a(href=`/profile?id=${friend.users}`) 
-    //- each pictures in pics_u
-    //-     p. 
-    //-     #{pictures.file_path}
+     
+    if fr
+      each friend in fr
+        p. 
+        a(href=`/profile?id=${friend.users}`) #{friend.users}
+    if pics
+      each picture in pics
+        img(src=picture.file_path, alt="", style='width:500px;heigth:600px', align='right')
+        

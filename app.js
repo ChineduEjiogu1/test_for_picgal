@@ -28,6 +28,31 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+function userIsAllowed(callback) {
+  // this function would contain your logic, presumably asynchronous,
+  // about whether or not the user is allowed to see files in the
+  // protected directory; here, we'll use a default value of "false"
+  callback(false);
+};
+
+// This function returns a middleware function
+var protectPath = function(regex) {
+  return function(req, res, next) {
+    if (!regex.test(req.url)) { return next(); }
+
+    userIsAllowed(function(allowed) {
+      if (allowed) {
+        next(); // send the request to the next handler, which is express.static
+      } else {
+        res.end('You are not allowed!');
+      }
+    });
+  };
+};
+
+app.use(protectPath(/^\/images\/protected\/.*$/));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -36,6 +61,7 @@ app.use('/users', users);
 app.use('/main', main);
 app.use('/profile', profile);
 app.use('/logout', logout);
+
 
 
 // catch 404 and forward to error handler
