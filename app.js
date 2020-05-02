@@ -6,6 +6,7 @@ var path = require('path');
 //var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var protect = require('./routes/protect');
 
 
 var routes = require('./routes/index');
@@ -40,18 +41,20 @@ function userIsAllowed(callback) {
 var protectPath = function(regex) {
   return function(req, res, next) {
     if (!regex.test(req.url)) { return next(); }
-
-    userIsAllowed(function(allowed) {
-      if (allowed) {
-        next(); // send the request to the next handler, which is express.static
-      } else {
-        res.end('You are not allowed!');
-      }
-    });
+    protect.check2(req,res,next);
+    //userIsAllowed(function(allowed) {
+    //   if (allowed) {
+    //     next(); // send the request to the next handler, which is express.static
+    //   } else {
+    //     res.end('You are not allowed!');
+    //   }
+    // });
   };
 };
 
-app.use(protectPath(/^\/images\/protected\/.*$/));
+//app.use(protectPath(/^\/images\/protected\/.*$/));
+app.use(protectPath(/^\/private\/.*$/));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -79,27 +82,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// app.get('/', function(req, res, next){
-//   res.render('main.jade');
-// });
-
-// app.use(function(req, res, next) {
-//   if (req.session.user == null){
-// // if user is not logged-in redirect back to login page //
-//       res.redirect('/');
-//   }   else{
-//       next();
-//   }
-// });
-
-// app.post('/auth',  bcrypt.compare('auth',{
-//   successRedirect: '/main',
-//   failureRedirect: '/',
-// }));  
-
-// app.get('/main', function(request,reponse){
-//   res.render('main.jade');
-// });
 
 module.exports = app;
