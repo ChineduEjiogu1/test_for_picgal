@@ -1,21 +1,20 @@
 var cookieParser = require('cookie-parser');
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var protect = require('./routes/protect');
 
 
 var routes = require('./routes/index');
-//var usersRouter = require('./routes/users');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var main = require('./routes/main');
 var profile = require('./routes/profile');
 var logout = require('./routes/logout');
+var private = require('./routes/private');
+
 
 
 var app = express();
@@ -53,7 +52,7 @@ var protectPath = function(regex) {
 };
 
 //app.use(protectPath(/^\/images\/protected\/.*$/));
-app.use(protectPath(/^\/private\/.*$/));
+//app.use(protectPath(/^\/private\/.*$/));
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -64,7 +63,7 @@ app.use('/users', users);
 app.use('/main', main);
 app.use('/profile', profile);
 app.use('/logout', logout);
-
+app.use('/private', private);
 
 
 // catch 404 and forward to error handler
