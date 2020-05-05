@@ -15,5 +15,8 @@ html(lang='en')
         a(href=`/profile?id=${friend.users}`) #{friend.users}
     if pics
       each picture in pics
-        img(src=picture.file_path, alt="", style='width:500px;heigth:600px', align='right')
+        if picture.public_pic 
+          img(src='/images/' + picture.user + '/' + picture.file_path alt="", style='width:500px;heigth:600px', align='right')
+        else
+          img(src='/private/images/' + picture.user + '/' + picture.file_path , alt="", style='width:500px;heigth:600px', align='right')
         

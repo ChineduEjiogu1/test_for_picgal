@@ -6,7 +6,7 @@ var protect = require('./protect');
 
 function public_page(req,res,next) {
 
-  let id2 = req.query.id;
+  let id2 = req.query.id; // trying to request profile of this user
 
   let db = new sqlite3.Database('test.db', (err) => {
       if (err) {
@@ -15,25 +15,27 @@ function public_page(req,res,next) {
       console.log('Connected to test db.');
   });
   
-  let sql_public = 'select pics.USERS as user, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?) AND IS_PUBLIC = true';
+  let sql_public = 'select pics.USERS as user, IS_PUBLIC as public_pic, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?) AND IS_PUBLIC = true';
 
   db.all(sql_public, [id2], (err, public_res) => {
       if (err) {
           throw err;
       }
-      res.render('profile', { title: 'Express', pics: public_res});
+      res.render('profile', { title: 'Public Profile', pics: public_res});
   });
-}
+} // end of public page
 
 
 function private_page(req, res, next){
 
-  id = req.query.id;
+  let user_name = req.query.id; // this is user 
   
-  let sql = 'select USERS as user, uID as uid from users_info where USERS = (?)';
-  let sql2 = 'select users_info.uID as uid, USERS as users, FULL_NAME as full_name from users_info INNER JOIN friends on friends.friendID = users_info.uID where friends.uID = (?)';
-  let sql3 = 'select pics.USERS as user, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?)';
-  
+  let user_info = 'select USERS as user, uID as uid from users_info where USERS = (?)';
+  let friends_list = 'select users_info.uID as uid, USERS as users, FULL_NAME as full_name from users_info INNER JOIN friends on friends.friendID = users_info.uID where friends.uID = (?)';
+  let pics_all  = 'select pics.USERS as user, IS_PUBLIC as public_pic, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?)';
+  let pics_public = 'select pics.USERS as user, IS_PUBLIC as public_pic, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?) AND IS_PUBLIC = true';
+
+  // connect to db
   let db = new sqlite3.Database('test.db', (err) => {
     if (err) {
       console.error(err.message);
@@ -41,49 +43,57 @@ function private_page(req, res, next){
     console.log('Connected to test db.');
   });
   
-  
-  let id2 = req.query.id;
-  
-
-  db.all(sql, [id], (err, result) => {
+    // execute sql numerical user_id from user_name
+  db.all(user_info, [user_name], (err, result) => {
     if (err) {
       throw err;
     }
 
     console.log("users: ", JSON.stringify(result));
-    let id = result[0].uid;
+    let user_id = result[0].uid; // numerical user_id
 
-    db.all(sql2, [id], (err, result2) => {
+    db.all(friends_list, [user_id], (err, result2) => {
       if (err) {
         throw err;
       }
     
-      // loop through struct of friends
+      // loop through result2 which contains our friends 
       let found = false;
-      for(let i = 0; i < result2.length; i++) {
-        console.log('results', result2[i].users);
-        console.log('user id2', id2);
-        console.log('user ID', id);
-        if(result2[i].users === req.signedCookies.cookieName){
-          found = true;
-          break;
+      
+      if(user_name === req.signedCookies.cookieName)
+      {
+        found = true;
+      }
+      else if(result2 !== undefined)
+      {
+        for(let i = 0; i < result2.length; i++) {
+            console.log(' results', result2[i].users);
+            console.log(' user_name', user_name);
+            console.log(' user_id', user_id);
+            if(result2[i].users === req.signedCookies.cookieName){
+                found = true;
+                break;
+            }
         }
       }
+
+      console.log("whats in signed cookie.ID", req.signedCookies.cookieName);
+      console.log("whats in user_name", user_name);
       console.log('the value of found is', found)
+
       if(!found){
-        let sql_public = 'select pics.USERS as user, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?) AND IS_PUBLIC = true';
+
         // only get public pics
-        db.all(sql_public, [id2], (err, result3) => {
+        db.all(pics_public, [user_name], (err, result3) => {
           if (err) {
             throw err;
           }
-
           res.render('profile', { title: 'Express', pro: result[0], fri: result2, pics: result3});
         });
 
       }else{
         // otherwise we need all pics
-        db.all(sql3, [id2], (err, result3) => {
+        db.all(pics_all, [user_name], (err, result3) => {
           if (err) {
             throw err;
           }
