@@ -2,21 +2,22 @@ doctype html
 html(lang='en')
   head
     meta(charset='UTF-8')
-    title  JS File Reader 
+    title  PhotoRest 
   body
  
-    //- #{title}
+    div=title
     //- a(href='logout') Logout 
     
     //- input(type='file')
     //- script(src='javascripts/fileReader.js', charset='utf-8')
-    if pro
-      div=pro.user
+    if pics
+      //- div=pics[0].user
+      if displayLogout
         a(href='logout') Logout 
     if fri
       each friend in fri
         p. 
-        a(href=`/profile?id=${friend.users}`) #{friend.users}
+        a(href=`/profile?id=${friend.uid}`) #{friend.full_name}
     if pics
       each picture in pics
         if picture.public_pic 
