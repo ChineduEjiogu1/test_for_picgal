@@ -6,12 +6,12 @@ var sqlite3 = require('sqlite3');
 var protect = require('./protect');
 
 
-function nocache(req, res, next) {
-     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-     res.header('Expires', '-1');
-     res.header('Pragma', 'no-cache');
-     next();
-   }
+// function nocache(req, res, next) {
+//      res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+//      res.header('Expires', '-1');
+//      res.header('Pragma', 'no-cache');
+//      next();
+//    }
    
    function public_page(req,res,next){
       res.send("Public Page");
@@ -22,7 +22,7 @@ function nocache(req, res, next) {
     let cookie = req.signedCookies;
    
      let sql = ' select users_info.uID as uid, USERS as users, FULL_NAME as full_name from users_info INNER JOIN friends on friends.friendID = users_info.uID where friends.uID = (?)';
-     let sql3 = 'select pics.USERS as user, IS_PUBLIC as public_pic, FILE_PATH as file_path from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?)';
+     let sql3 = 'select pics.USERS as user, IS_PUBLIC as public_pic, FILE_PATH as file_path, FULL_NAME as full_name from pics INNER JOIN users_info on users_info.USERS = pics.USERS where users_info.USERS = (?)';
      
      let db = new sqlite3.Database('test.db', (err) => {
        if (err) {
